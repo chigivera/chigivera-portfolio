@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center">
           <motion.div 
-            className="md:w-1/2 mb-10 md:mb-0"
+            className="md:w-2/5 mb-10 md:mb-0"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -84,7 +84,7 @@ export default function Hero() {
           
           {/* 3D Laptop Mockup */}
           <motion.div 
-            className="md:w-1/2 perspective-container"
+            className="md:w-3/5 perspective-container"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}

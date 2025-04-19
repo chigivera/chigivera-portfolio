@@ -226,26 +226,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .sort((a, b) => b.percentage - a.percentage)
         .slice(0, 5); // Top 5 languages
       
-      // Get contribution data (simplified for performance)
-      // In a real implementation, you would process more detailed contribution data
-      const contributionDates = [];
-      const today = new Date();
+      // Get actual contribution data
       let totalCommits = 0;
+      const contributionDates = [];
       
-      // Generate sample dates for the last 4 weeks
-      for (let i = 27; i >= 0; i--) {
-        const date = new Date();
-        date.setDate(today.getDate() - i);
+      try {
+        // Try to get contribution data from commit activity
+        // For the user's top repository
+        if (reposResponse.data.length > 0) {
+          const topRepo = reposResponse.data[0];
+          const commitResponse = await axios.get<ContributionData>(
+            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${topRepo.name}/stats/commit_activity`
+          );
+          
+          if (commitResponse.data && commitResponse.data.weeks) {
+            // Convert to the format we need and get the most recent 4 weeks
+            const weeks = commitResponse.data.weeks.slice(-4);
+            totalCommits = weeks.reduce((sum, week) => {
+              return sum + week.days.reduce((daySum, count) => daySum + count, 0);
+            }, 0);
+            
+            // Generate dates for these weeks
+            weeks.forEach(week => {
+              const weekStart = new Date(parseInt(week.w) * 1000);
+              
+              for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + i);
+                
+                contributionDates.push({
+                  date: date.toISOString().split('T')[0],
+                  count: week.days[i]
+                });
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching detailed contribution data:", error);
         
-        // Get a random count between 0-10 for demo purposes
-        // In real implementation, fetch actual contribution counts
-        const count = Math.floor(Math.random() * 10);
-        totalCommits += count;
+        // Fallback to a simplified version without random numbers
+        const today = new Date();
+        const contributionDates = [];
         
-        contributionDates.push({
-          date: date.toISOString().split('T')[0],
-          count
-        });
+        for (let i = 27; i >= 0; i--) {
+          const date = new Date();
+          date.setDate(today.getDate() - i);
+          
+          contributionDates.push({
+            date: date.toISOString().split('T')[0],
+            count: 0 // Use 0 instead of random numbers
+          });
+        }
       }
       
       // Create combined stats object

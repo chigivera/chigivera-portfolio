@@ -24,7 +24,7 @@ export default function LaptopModel() {
     
     // Create camera
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 6); // Move camera back to accommodate larger laptop
     cameraRef.current = camera;
     
     // Create renderer
@@ -56,6 +56,8 @@ export default function LaptopModel() {
     
     // Create laptop model
     const laptop = createLaptopModel();
+    // Make laptop bigger
+    laptop.scale.set(1.5, 1.5, 1.5);
     laptop.rotation.x = 0.2;
     laptop.rotation.y = 0.5;
     scene.add(laptop);
@@ -124,7 +126,7 @@ export default function LaptopModel() {
   }, []);
   
   return (
-    <div ref={containerRef} className="w-full h-full min-h-[300px] perspective-container">
+    <div ref={containerRef} className="w-full h-full min-h-[400px] perspective-container">
       {/* Three.js canvas will be appended here */}
     </div>
   );
