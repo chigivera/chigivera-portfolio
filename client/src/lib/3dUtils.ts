@@ -139,11 +139,13 @@ export const createPhoneModel = (): THREE.Group => {
 
   // Create phone screen
   const screenGeometry = new THREE.PlaneGeometry(0.9, 1.8);
-  const screenMaterial = new THREE.MeshBasicMaterial({ 
+  const screenMaterial = new THREE.MeshPhongMaterial({ 
     color: 0xFF2CF5, 
     emissive: 0xFF2CF5,
+    emissiveIntensity: 0.5,
     opacity: 0.8,
-    transparent: true
+    transparent: true,
+    shininess: 70
   });
   const screen = new THREE.Mesh(screenGeometry, screenMaterial);
   screen.position.set(0, 0, 0.06);
@@ -205,9 +207,11 @@ export const createServerRackModel = (): THREE.Group => {
     
     // Add LEDs to server
     const ledGeometry = new THREE.CircleGeometry(0.05, 16);
-    const ledMaterial = new THREE.MeshBasicMaterial({ 
+    const ledMaterial = new THREE.MeshPhongMaterial({ 
       color: colors[i % colors.length],
-      emissive: colors[i % colors.length]
+      emissive: colors[i % colors.length],
+      emissiveIntensity: 0.8,
+      shininess: 50
     });
     const led = new THREE.Mesh(ledGeometry, ledMaterial);
     led.position.set(-1.2, 0, 0.01);
@@ -218,7 +222,7 @@ export const createServerRackModel = (): THREE.Group => {
 };
 
 // Create neural network visualization
-export const createNeuralNetwork = (scene: THREE.Scene): void => {
+export const createNeuralNetwork = (scene: THREE.Scene): { nodes: THREE.Mesh[]; connections: THREE.Mesh[] } => {
   const nodes = [];
   const connections = [];
   
@@ -237,11 +241,13 @@ export const createNeuralNetwork = (scene: THREE.Scene): void => {
       const yPos = (n - (nodesInLayer - 1) / 2) * nodeSpacing;
       
       const geometry = new THREE.SphereGeometry(0.1, 16, 16);
-      const material = new THREE.MeshBasicMaterial({ 
+      const material = new THREE.MeshPhongMaterial({ 
         color: 0x32F5FF,
         emissive: 0x32F5FF,
+        emissiveIntensity: 0.6,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.8,
+        shininess: 60
       });
       
       const node = new THREE.Mesh(geometry, material);
