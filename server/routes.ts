@@ -49,7 +49,7 @@ interface GitHubStats {
 }
 
 // GitHub username
-const GITHUB_USERNAME = "chicigvera";
+const GITHUB_USERNAME = "chigivera";
 
 // GitHub API base URL
 const GITHUB_API = "https://api.github.com";
@@ -228,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Get actual contribution data
       let totalCommits = 0;
-      const contributionDates = [];
+      const contributionDates: Array<{ date: string; count: number }> = [];
       
       try {
         // Try to get contribution data from commit activity
@@ -267,7 +267,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Fallback to a simplified version without random numbers
         const today = new Date();
-        const contributionDates = [];
+        
+        // Clear existing array and refill with fallback data
+        contributionDates.length = 0;
         
         for (let i = 27; i >= 0; i--) {
           const date = new Date();
