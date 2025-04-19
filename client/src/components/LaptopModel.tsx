@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { createLaptopModel } from '../lib/3dUtils';
 import Console from './Console';
@@ -12,6 +12,22 @@ export default function LaptopModel() {
   const frameIdRef = useRef<number | null>(null);
   const textureRef = useRef<THREE.Texture | null>(null);
   const [consoleReady, setConsoleReady] = useState(false);
+  
+  // Function to update laptop texture (using useCallback to ensure it's defined before use)
+  const updateLaptopTexture = useCallback((texture: THREE.Texture) => {
+    if (!laptopRef.current || !sceneRef.current) return;
+    
+    // Remove old laptop
+    sceneRef.current.remove(laptopRef.current);
+    
+    // Create new laptop with the texture
+    const laptop = createLaptopModel(texture);
+    laptop.scale.set(1.5, 1.5, 1.5);
+    laptop.rotation.x = 0.2;
+    laptop.rotation.y = 0.5;
+    sceneRef.current.add(laptop);
+    laptopRef.current = laptop;
+  }, []);
   
   useEffect(() => {
     if (!containerRef.current) return;
@@ -57,20 +73,20 @@ export default function LaptopModel() {
     purpleLight.position.set(-2, 0, 2);
     scene.add(purpleLight);
     
-    // If we already have a texture from the console
-    let laptop;
-    if (textureRef.current) {
-      laptop = createLaptopModel(textureRef.current);
-    } else {
-      laptop = createLaptopModel(); // Use default screen
-    }
+    // Initial laptop without texture (will be updated when console is ready)
+    const laptop = createLaptopModel();
     
-    // Make laptop bigger
+    // Make laptop bigger and position correctly
     laptop.scale.set(1.5, 1.5, 1.5);
     laptop.rotation.x = 0.2;
     laptop.rotation.y = 0.5;
     scene.add(laptop);
     laptopRef.current = laptop;
+    
+    // If we already have a texture from the console, update the model immediately
+    if (textureRef.current) {
+      updateLaptopTexture(textureRef.current);
+    }
     
     // Handle window resize
     const handleResize = () => {
@@ -140,20 +156,10 @@ export default function LaptopModel() {
     const texture = new THREE.CanvasTexture(canvas);
     textureRef.current = texture;
     
-    // If we already have a laptop model, update its texture
-    if (laptopRef.current && sceneRef.current) {
-      // Remove old laptop
-      sceneRef.current.remove(laptopRef.current);
-      
-      // Create new laptop with the texture
-      const laptop = createLaptopModel(texture);
-      laptop.scale.set(1.5, 1.5, 1.5);
-      laptop.rotation.x = 0.2;
-      laptop.rotation.y = 0.5;
-      sceneRef.current.add(laptop);
-      laptopRef.current = laptop;
-    }
+    // Update the laptop texture using our updateLaptopTexture function
+    updateLaptopTexture(texture);
     
+    // Mark console as ready
     setConsoleReady(true);
   };
   
