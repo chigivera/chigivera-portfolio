@@ -3,6 +3,9 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import axios from "axios";
 
+// Get GitHub token from environment variables
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
 // GitHub API interfaces
 interface GitHubUser {
   login: string;
@@ -54,13 +57,29 @@ const GITHUB_USERNAME = "chigivera";
 // GitHub API base URL
 const GITHUB_API = "https://api.github.com";
 
+// Configure request headers with authentication if token is available
+const getGitHubHeaders = () => {
+  const headers: Record<string, string> = {
+    "Accept": "application/vnd.github+json"
+  };
+  
+  if (GITHUB_TOKEN) {
+    headers["Authorization"] = `token ${GITHUB_TOKEN}`;
+  }
+  
+  return { headers };
+};
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // GitHub API proxy endpoints
   
   // Get GitHub user profile
   app.get("/api/github/user", async (req, res) => {
     try {
-      const response = await axios.get<GitHubUser>(`${GITHUB_API}/users/${GITHUB_USERNAME}`);
+      const response = await axios.get<GitHubUser>(
+        `${GITHUB_API}/users/${GITHUB_USERNAME}`,
+        getGitHubHeaders()
+      );
       res.json(response.data);
     } catch (error) {
       console.error("Error fetching GitHub user:", error);
@@ -72,7 +91,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/github/repos", async (req, res) => {
     try {
       const response = await axios.get<GitHubRepo[]>(
-        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`
+        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+        getGitHubHeaders()
       );
       res.json(response.data);
     } catch (error) {
@@ -86,7 +106,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       // For contribution data, we need to check stats for each repository
       const reposResponse = await axios.get<GitHubRepo[]>(
-        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`
+        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`,
+        getGitHubHeaders()
       );
       
       let totalContributions = 0;
@@ -96,7 +117,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const repo of reposResponse.data.slice(0, 5)) {
         try {
           const commitResponse = await axios.get<ContributionData>(
-            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/stats/commit_activity`
+            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/stats/commit_activity`,
+            getGitHubHeaders()
           );
           
           if (commitResponse.data && commitResponse.data.weeks) {
@@ -135,7 +157,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/github/languages", async (req, res) => {
     try {
       const reposResponse = await axios.get<GitHubRepo[]>(
-        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`
+        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`,
+        getGitHubHeaders()
       );
       
       const languageCounts: {[key: string]: number} = {};
@@ -145,7 +168,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const repo of reposResponse.data.slice(0, 10)) {
         try {
           const langResponse = await axios.get<LanguageData>(
-            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/languages`
+            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/languages`,
+            getGitHubHeaders()
           );
           
           // Sum up languages
@@ -179,11 +203,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/github/stats", async (req, res) => {
     try {
       // Get user data
-      const userResponse = await axios.get<GitHubUser>(`${GITHUB_API}/users/${GITHUB_USERNAME}`);
+      const userResponse = await axios.get<GitHubUser>(
+        `${GITHUB_API}/users/${GITHUB_USERNAME}`,
+        getGitHubHeaders()
+      );
       
       // Get repositories
       const reposResponse = await axios.get<GitHubRepo[]>(
-        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`
+        `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100`,
+        getGitHubHeaders()
       );
       
       // Calculate total stars and forks
@@ -203,7 +231,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const repo of reposResponse.data.slice(0, 10)) {
         try {
           const langResponse = await axios.get<LanguageData>(
-            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/languages`
+            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${repo.name}/languages`,
+            getGitHubHeaders()
           );
           
           // Sum up languages
@@ -236,7 +265,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (reposResponse.data.length > 0) {
           const topRepo = reposResponse.data[0];
           const commitResponse = await axios.get<ContributionData>(
-            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${topRepo.name}/stats/commit_activity`
+            `${GITHUB_API}/repos/${GITHUB_USERNAME}/${topRepo.name}/stats/commit_activity`,
+            getGitHubHeaders()
           );
           
           if (commitResponse.data && commitResponse.data.weeks) {
