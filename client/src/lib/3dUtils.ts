@@ -58,7 +58,7 @@ export const createLights = (scene: THREE.Scene): void => {
 };
 
 // Create a simple laptop model
-export const createLaptopModel = (): THREE.Group => {
+export const createLaptopModel = (screenTexture?: THREE.Texture): THREE.Group => {
   const laptop = new THREE.Group();
 
   // Create laptop base
@@ -85,14 +85,24 @@ export const createLaptopModel = (): THREE.Group => {
   screen.rotation.x = -Math.PI / 6;
   laptop.add(screen);
 
-  // Create laptop screen display
+  // Create laptop screen display with texture or default color
   const displayGeometry = new THREE.PlaneGeometry(2.8, 1.8);
-  const displayMaterial = new THREE.MeshBasicMaterial({ 
-    color: 0x32F5FF, 
-    emissive: 0x32F5FF,
-    opacity: 0.8,
-    transparent: true
-  });
+  
+  let displayMaterial;
+  if (screenTexture) {
+    displayMaterial = new THREE.MeshBasicMaterial({ 
+      map: screenTexture,
+      transparent: true,
+      opacity: 0.95
+    });
+  } else {
+    displayMaterial = new THREE.MeshBasicMaterial({ 
+      color: 0x32F5FF, 
+      opacity: 0.8,
+      transparent: true
+    });
+  }
+  
   const display = new THREE.Mesh(displayGeometry, displayMaterial);
   display.position.set(0, 0, 0.06);
   screen.add(display);

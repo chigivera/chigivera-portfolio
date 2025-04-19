@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { createLaptopModel } from '../lib/3dUtils';
+import Console from './Console';
 
 export default function LaptopModel() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,6 +10,8 @@ export default function LaptopModel() {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const laptopRef = useRef<THREE.Group | null>(null);
   const frameIdRef = useRef<number | null>(null);
+  const textureRef = useRef<THREE.Texture | null>(null);
+  const [consoleReady, setConsoleReady] = useState(false);
   
   useEffect(() => {
     if (!containerRef.current) return;
@@ -54,8 +57,14 @@ export default function LaptopModel() {
     purpleLight.position.set(-2, 0, 2);
     scene.add(purpleLight);
     
-    // Create laptop model
-    const laptop = createLaptopModel();
+    // If we already have a texture from the console
+    let laptop;
+    if (textureRef.current) {
+      laptop = createLaptopModel(textureRef.current);
+    } else {
+      laptop = createLaptopModel(); // Use default screen
+    }
+    
     // Make laptop bigger
     laptop.scale.set(1.5, 1.5, 1.5);
     laptop.rotation.x = 0.2;
@@ -125,9 +134,33 @@ export default function LaptopModel() {
     };
   }, []);
   
+  // Handler for when Console canvas is ready
+  const handleConsoleReady = (canvas: HTMLCanvasElement) => {
+    // Create texture from canvas
+    const texture = new THREE.CanvasTexture(canvas);
+    textureRef.current = texture;
+    
+    // If we already have a laptop model, update its texture
+    if (laptopRef.current && sceneRef.current) {
+      // Remove old laptop
+      sceneRef.current.remove(laptopRef.current);
+      
+      // Create new laptop with the texture
+      const laptop = createLaptopModel(texture);
+      laptop.scale.set(1.5, 1.5, 1.5);
+      laptop.rotation.x = 0.2;
+      laptop.rotation.y = 0.5;
+      sceneRef.current.add(laptop);
+      laptopRef.current = laptop;
+    }
+    
+    setConsoleReady(true);
+  };
+  
   return (
     <div ref={containerRef} className="w-full h-full min-h-[400px] perspective-container">
       {/* Three.js canvas will be appended here */}
+      <Console width={512} height={300} onCanvasReady={handleConsoleReady} />
     </div>
   );
 }
