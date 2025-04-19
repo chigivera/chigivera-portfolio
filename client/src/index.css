@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 232 85% 5%;
+    --foreground: 0 0% 100%;
+    
+    --card: 225 70% 8%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 225 70% 8%;
+    --popover-foreground: 0 0% 100%;
+    
+    --primary: 183 100% 50%;
+    --primary-foreground: 225 70% 8%;
+    
+    --secondary: 300 100% 57%;
+    --secondary-foreground: 225 70% 8%;
+    
+    --muted: 225 30% 20%;
+    --muted-foreground: 0 0% 80%;
+    
+    --accent: 265 100% 59%;
+    --accent-foreground: 225 70% 8%;
+    
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 183 100% 50%;
+    --input: 225 30% 20%;
+    --ring: 183 100% 50%;
+    
+    --chart-1: 183 100% 50%;
+    --chart-2: 300 100% 57%;
+    --chart-3: 265 100% 59%;
+    --chart-4: 210 100% 50%;
+    --chart-5: 120 100% 50%;
+    
+    --sidebar-background: 225 70% 8%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 183 100% 50%;
+    --sidebar-primary-foreground: 225 70% 8%;
+    --sidebar-accent: 265 100% 59%;
+    --sidebar-accent-foreground: 225 70% 8%;
+    --sidebar-border: 183 100% 50%;
+    --sidebar-ring: 183 100% 50%;
+    
+    --radius: 0.5rem;
+  }
+  
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 225 70% 8%;
+    
+    --card: 0 0% 95%;
+    --card-foreground: 225 70% 8%;
+    
+    --popover: 0 0% 95%;
+    --popover-foreground: 225 70% 8%;
+    
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 300 100% 57%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 0 0% 90%;
+    --muted-foreground: 225 30% 20%;
+    
+    --accent: 265 100% 59%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 210 100% 50%;
+    --input: 0 0% 90%;
+    --ring: 210 100% 50%;
+    
+    --chart-1: 210 100% 50%;
+    --chart-2: 300 100% 57%;
+    --chart-3: 265 100% 59%;
+    --chart-4: 183 100% 50%;
+    --chart-5: 120 100% 50%;
+    
+    --sidebar-background: 0 0% 95%;
+    --sidebar-foreground: 225 70% 8%;
+    --sidebar-primary: 210 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 265 100% 59%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 100% 50%;
+    --sidebar-ring: 210 100% 50%;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-orbitron;
+  }
+}
+
+@layer components {
+  .neon-border-primary {
+    box-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary));
+  }
+  
+  .neon-border-secondary {
+    box-shadow: 0 0 5px hsl(var(--secondary)), 0 0 10px hsl(var(--secondary));
+  }
+  
+  .neon-border-accent {
+    box-shadow: 0 0 5px hsl(var(--accent)), 0 0 10px hsl(var(--accent));
+  }
+  
+  .neon-text-primary {
+    text-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary));
+  }
+  
+  .neon-text-secondary {
+    text-shadow: 0 0 5px hsl(var(--secondary)), 0 0 10px hsl(var(--secondary)), 0 0 15px hsl(var(--secondary));
+  }
+  
+  .neon-text-accent {
+    text-shadow: 0 0 5px hsl(var(--accent)), 0 0 10px hsl(var(--accent)), 0 0 15px hsl(var(--accent));
+  }
+  
+  .circuit-pattern {
+    background-image: 
+      radial-gradient(circle at 25px 25px, hsl(var(--primary) / 0.2) 2px, transparent 0), 
+      linear-gradient(to right, hsl(var(--primary) / 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.1) 1px, transparent 1px);
+    background-size: 50px 50px, 25px 25px, 25px 25px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+  }
+  
+  .perspective-container {
+    perspective: 1000px;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .skill-bar-fill {
+    @apply h-full rounded-full;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+    animation: skill-fill 2s ease forwards;
+  }
+  
+  @keyframes skill-fill {
+    from { width: 0; }
+    to { width: var(--skill-percent, 85%); }
+  }
+  
+  .terminal {
+    @apply bg-background bg-opacity-90 border border-primary rounded-lg;
+    box-shadow: 0 0 10px hsl(var(--primary));
+    font-family: 'Courier New', monospace;
+  }
+  
+  .floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .rotate-slow {
+    animation: rotate 15s linear infinite;
+  }
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .terminal-cursor {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  .tech-ribbon {
+    @apply px-4 py-2 bg-card border rounded-md transition-colors cursor-pointer;
+  }
+  
+  .tech-ribbon.primary {
+    @apply border-primary text-primary hover:bg-primary hover:text-primary-foreground;
+  }
+  
+  .tech-ribbon.secondary {
+    @apply border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground;
+  }
+  
+  .tech-ribbon.accent {
+    @apply border-accent text-accent hover:bg-accent hover:text-accent-foreground;
+  }
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/orbitron/v29/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
