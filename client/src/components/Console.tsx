@@ -6,13 +6,13 @@ interface ConsoleProps {
   onCanvasReady?: (canvas: HTMLCanvasElement) => void;
 }
 
-// Simulated terminal commands and responses with more developer-focused content
+// Custom terminal command to type "my name is ayman"
 const COMMANDS = [
-  { command: "cat skills.json", response: "{ \"frontend\": [\"React\", \"TypeScript\", \"Three.js\"], \"backend\": [\"Node.js\", \"Express\", \"PostgreSQL\"] }" },
-  { command: "git clone https://github.com/chigivera/portfolio", response: "Cloning into 'portfolio'...\nComplete." },
-  { command: "cd portfolio && npm run dev", response: "Starting development server...\n> Ready on http://localhost:3000" },
-  { command: "docker-compose up -d", response: "Creating network...\nCreating container...\nReady! ✓" },
-  { command: "npm run deploy", response: "Building optimized bundle...\nDeploying to production...\nDeployment successful! 🚀" }
+  { command: "echo \"my name is ayman\"", response: "my name is ayman" },
+  { command: "whoami", response: "ayman" },
+  { command: "ls -la ~/projects", response: "total 32\ndrwxr-xr-x  8 ayman  staff  256 Apr 19 12:34 .\ndrwxr-xr-x  5 ayman  staff  160 Apr 19 12:30 ..\ndrwxr-xr-x 12 ayman  staff  384 Apr 19 12:32 portfolio\ndrwxr-xr-x 14 ayman  staff  448 Apr 19 12:31 3d-engine\ndrwxr-xr-x 10 ayman  staff  320 Apr 19 12:33 neural-network" },
+  { command: "cat ~/info.txt", response: "Name: Ayman\nRole: Senior Software Engineer\nSpecialty: 3D Web Applications" },
+  { command: "echo \"Welcome to my portfolio\"", response: "Welcome to my portfolio" }
 ];
 
 export default function Console({ width = 512, height = 300, onCanvasReady }: ConsoleProps) {
@@ -94,7 +94,7 @@ export default function Console({ width = 512, height = 300, onCanvasReady }: Co
       ctx.shadowColor = promptGlow;
       ctx.shadowBlur = 5;
       ctx.fillStyle = promptColor;
-      ctx.fillText('user@portfolio:~$ ', 10, 40);
+      ctx.fillText('ayman@portfolio:~$ ', 10, 40);
       
       // Type command character by character
       if (isTypingCommand) {
@@ -111,17 +111,20 @@ export default function Console({ width = 512, height = 300, onCanvasReady }: Co
         }
       }
       
+      // Calculate prompt width
+      const promptWidth = ctx.measureText('ayman@portfolio:~$ ').width;
+      
       // Draw current command with glow effect
       ctx.shadowColor = terminalTextGlow;
       ctx.shadowBlur = 4;
       ctx.fillStyle = terminalText;
-      ctx.fillText(command.substring(0, charIndex), 150, 40);
+      ctx.fillText(command.substring(0, charIndex), promptWidth + 10, 40);
       
       // Add blinking cursor
       if (isTypingCommand && Math.floor(timestamp / 500) % 2 === 0) {
         // Reset shadow for the cursor
         ctx.shadowBlur = 0;
-        ctx.fillRect(150 + ctx.measureText(command.substring(0, charIndex)).width, 27, 8, 16);
+        ctx.fillRect(promptWidth + 10 + ctx.measureText(command.substring(0, charIndex)).width, 27, 8, 16);
       }
       
       // Draw response (handling multiline responses)

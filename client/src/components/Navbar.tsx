@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import ThemeToggle from './ThemeToggle';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -53,8 +52,6 @@ export default function Navbar() {
         
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-4">
-          <ThemeToggle />
-          
           <Button
             variant="ghost"
             size="icon"
