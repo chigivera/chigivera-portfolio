@@ -96,8 +96,10 @@ export const createLaptopModel = (screenTexture?: THREE.Texture): THREE.Group =>
       opacity: 0.95
     });
   } else {
-    displayMaterial = new THREE.MeshBasicMaterial({ 
+    displayMaterial = new THREE.MeshPhongMaterial({ 
       color: 0x32F5FF, 
+      emissive: 0x32F5FF,
+      emissiveIntensity: 0.2,
       opacity: 0.8,
       transparent: true
     });

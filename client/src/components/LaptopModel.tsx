@@ -148,7 +148,7 @@ export default function LaptopModel() {
       window.removeEventListener('resize', handleResize);
       container.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [updateLaptopTexture]);
   
   // Handler for when Console canvas is ready
   const handleConsoleReady = (canvas: HTMLCanvasElement) => {
