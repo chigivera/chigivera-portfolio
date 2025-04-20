@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Cigivera - Senior Software Engineer Portfolio</title>
+        <title>chigivera - Senior Software Engineer Portfolio</title>
         <meta name="description" content="Portfolio website of a senior software engineer specializing in web development, AI, and data analysis." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

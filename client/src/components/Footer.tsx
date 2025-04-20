@@ -13,7 +13,7 @@ export default function Footer() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="font-orbitron font-bold text-xl">
-              <span className="text-primary neon-text-primary">CIGIVERA</span>
+              <span className="text-primary neon-text-primary">AYMAN</span>
               <span className="text-secondary neon-text-secondary">.DEV</span>
             </h2>
           </motion.div>
@@ -48,7 +48,7 @@ export default function Footer() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <p>&copy; {new Date().getFullYear()} CIGIVERA. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} chigivera. All rights reserved.</p>
             <p className="mt-1">Crafted with <span className="text-secondary">♥</span> and cutting-edge technology</p>
           </motion.div>
         </div>

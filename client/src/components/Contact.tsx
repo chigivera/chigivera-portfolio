@@ -73,8 +73,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-orbitron text-foreground">Email</h4>
-                  <a href="mailto:contact@cigivera.dev" className="text-muted-foreground hover:text-primary transition-colors">
-                    contact@cigivera.dev
+                  <a href="mailto:contact@chigivera.dev" className="text-muted-foreground hover:text-primary transition-colors">
+                    contact@chigivera.dev
                   </a>
                 </div>
               </motion.div>

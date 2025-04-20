@@ -25,7 +25,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center">
           <h1 className="font-orbitron font-bold text-2xl md:text-3xl">
-            <span className="text-primary neon-text-primary">CIGIVERA</span>
+            <span className="text-primary neon-text-primary">AYMAN</span>
             <span className="text-secondary neon-text-secondary">.DEV</span>
           </h1>
         </div>
