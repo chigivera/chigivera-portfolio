@@ -24,7 +24,7 @@ export default function LaptopModel() {
     const laptop = createLaptopModel(texture);
     laptop.scale.set(1.5, 1.5, 1.5);
     laptop.rotation.x = 0.2;
-    laptop.rotation.y = 0.5;
+    laptop.rotation.y = -0.5;
     sceneRef.current.add(laptop);
     laptopRef.current = laptop;
   }, []);
@@ -34,8 +34,8 @@ export default function LaptopModel() {
     
     // Setup
     const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const width = container.clientWidth ;
+    const height = container.clientHeight + 100;
     
     // Create scene
     const scene = new THREE.Scene();
@@ -43,7 +43,7 @@ export default function LaptopModel() {
     
     // Create camera
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 6); // Move camera back to accommodate larger laptop
+    camera.position.set(0, 1, 6); // Move camera back to accommodate larger laptop
     cameraRef.current = camera;
     
     // Create renderer
