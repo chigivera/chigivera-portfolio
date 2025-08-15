@@ -57,6 +57,12 @@ const GITHUB_USERNAME = "chigivera";
 // GitHub API base URL
 const GITHUB_API = "https://api.github.com";
 
+// Sanity configuration
+const SANITY_PROJECT_ID = "lkszte6x";
+const SANITY_DATASET = "production";
+const SANITY_API_VERSION = "2024-01-01";
+const SANITY_API_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`;
+
 // Configure request headers with authentication if token is available
 const getGitHubHeaders = () => {
   const headers: Record<string, string> = {
@@ -327,6 +333,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching GitHub stats:", error);
       res.status(500).json({ message: "Error fetching GitHub statistics" });
+    }
+  });
+
+  // Sanity API proxy endpoints
+  
+  // Get all projects
+  app.get("/api/sanity/projects", async (req, res) => {
+    try {
+      const query = `*[_type == "project"] | order(order asc, featured desc, stars desc) {
+        _id,
+        name,
+        description,
+        language,
+        stars,
+        forks,
+        category,
+        featured,
+        type,
+        demoUrl,
+        codeUrl,
+        color,
+        order,
+        technologies,
+        "imageUrl": image.asset->url,
+        createdAt,
+        updatedAt
+      }`;
+      
+      const response = await axios.get(SANITY_API_URL, {
+        params: {
+          query,
+          returnQuery: false
+        }
+      });
+      
+      res.json(response.data.result || []);
+    } catch (error) {
+      console.error("Error fetching projects from Sanity:", error);
+      res.status(500).json({ message: "Error fetching projects from Sanity" });
+    }
+  });
+
+  // Get featured projects only
+  app.get("/api/sanity/projects/featured", async (req, res) => {
+    try {
+      const query = `*[_type == "project" && featured == true] | order(order asc, stars desc) {
+        _id,
+        name,
+        description,
+        language,
+        stars,
+        forks,
+        category,
+        featured,
+        type,
+        demoUrl,
+        codeUrl,
+        color,
+        order,
+        technologies,
+        "imageUrl": image.asset->url,
+        createdAt,
+        updatedAt
+      }`;
+      
+      const response = await axios.get(SANITY_API_URL, {
+        params: {
+          query,
+          returnQuery: false
+        }
+      });
+      
+      res.json(response.data.result || []);
+    } catch (error) {
+      console.error("Error fetching featured projects from Sanity:", error);
+      res.status(500).json({ message: "Error fetching featured projects from Sanity" });
     }
   });
 

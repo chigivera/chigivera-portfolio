@@ -1,0 +1,50 @@
+[
+  {
+    "_type": "project",
+    "name": "AI-Powered Analytics Dashboard",
+    "description": "A comprehensive analytics platform with predictive insights for e-commerce businesses.",
+    "language": "TypeScript",
+    "stars": 86,
+    "forks": 24,
+    "category": "ai",
+    "featured": true,
+    "type": "web",
+    "demoUrl": "https://example.com/demo",
+    "codeUrl": "https://github.com/example/project",
+    "color": "primary",
+    "order": 1,
+    "technologies": ["React", "TypeScript", "Node.js", "MongoDB"]
+  },
+  {
+    "_type": "project",
+    "name": "Neural Network Visualizer",
+    "description": "Interactive 3D visualization of neural networks with real-time training data.",
+    "language": "JavaScript",
+    "stars": 64,
+    "forks": 18,
+    "category": "ai",
+    "featured": true,
+    "type": "web",
+    "demoUrl": "https://example.com/demo2",
+    "codeUrl": "https://github.com/example/project2",
+    "color": "secondary",
+    "order": 2,
+    "technologies": ["Three.js", "JavaScript", "WebGL"]
+  },
+  {
+    "_type": "project",
+    "name": "Mobile E-Commerce App",
+    "description": "Cross-platform mobile application for online shopping with AR product previews.",
+    "language": "React Native",
+    "stars": 53,
+    "forks": 12,
+    "category": "mobile",
+    "featured": false,
+    "type": "mobile",
+    "demoUrl": "https://example.com/demo3",
+    "codeUrl": "https://github.com/example/project3",
+    "color": "accent",
+    "order": 3,
+    "technologies": ["React Native", "Expo", "Firebase"]
+  }
+]

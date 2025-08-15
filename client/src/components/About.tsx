@@ -81,7 +81,7 @@ export default function About() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="h-[400px]"
           >
-            <NeuralNetwork />
+            <img src="/assets/upwork_profile.png" alt="Upwork Profile" className="w-full h-full object-cover rounded-lg" />
           </motion.div>
         </div>
       </div>
