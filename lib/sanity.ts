@@ -16,24 +16,25 @@ export function urlFor(source: any) {
 
 // Query to get all projects
 export const getProjects = async () => {
-  const query = `*[_type == "project"] | order(order asc, featured desc, stars desc) {
+  const query = `*[_type == "blog"] | order(_createdAt desc, order asc, featured desc, stars desc) {
     _id,
-    name,
-    description,
-    language,
-    stars,
-    forks,
-    category,
-    featured,
-    type,
-    demoUrl,
-    codeUrl,
-    color,
-    order,
-    technologies,
-    "imageUrl": image.asset->url,
-    createdAt,
-    updatedAt
+    "name": title,
+    "description": coalesce(description, smallDescription, "No description available"),
+    "language": coalesce(language, "Not specified"),
+    "stars": coalesce(stars, 0),
+    "forks": coalesce(forks, 0),
+    "category": coalesce(category, "web"),
+    "featured": coalesce(featured, false),
+    "type": coalesce(type, "web"),
+    "demoUrl": coalesce(demoUrl, ""),
+    "codeUrl": coalesce(codeUrl, ""),
+    "color": coalesce(color, "primary"),
+    "order": coalesce(order, 999),
+    "technologies": coalesce(technologies, []),
+    "imageUrl": coalesce(image.asset->url, titleImage.asset->url, ""),
+    slug,
+    "createdAt": _createdAt,
+    "updatedAt": _updatedAt
   }`
   
   try {
@@ -47,24 +48,25 @@ export const getProjects = async () => {
 
 // Query to get featured projects only
 export const getFeaturedProjects = async () => {
-  const query = `*[_type == "project" && featured == true] | order(order asc, stars desc) {
+  const query = `*[_type == "blog" && featured == true] | order(_createdAt desc, order asc, stars desc) {
     _id,
-    name,
-    description,
-    language,
-    stars,
-    forks,
-    category,
-    featured,
-    type,
-    demoUrl,
-    codeUrl,
-    color,
-    order,
-    technologies,
-    "imageUrl": image.asset->url,
-    createdAt,
-    updatedAt
+    "name": title,
+    "description": coalesce(description, smallDescription, "No description available"),
+    "language": coalesce(language, "Not specified"),
+    "stars": coalesce(stars, 0),
+    "forks": coalesce(forks, 0),
+    "category": coalesce(category, "web"),
+    "featured": coalesce(featured, false),
+    "type": coalesce(type, "web"),
+    "demoUrl": coalesce(demoUrl, ""),
+    "codeUrl": coalesce(codeUrl, ""),
+    "color": coalesce(color, "primary"),
+    "order": coalesce(order, 999),
+    "technologies": coalesce(technologies, []),
+    "imageUrl": coalesce(image.asset->url, titleImage.asset->url, ""),
+    slug,
+    "createdAt": _createdAt,
+    "updatedAt": _updatedAt
   }`
   
   try {

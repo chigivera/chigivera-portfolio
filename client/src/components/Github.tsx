@@ -14,7 +14,7 @@ export default function Github() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
   const { data: githubData, isLoading, error } = useGithubData()
-  const { repos, isLoading: reposLoading, error: reposError } = useGithubRepos(true) // true to fetch only featured repos
+  const { repos, isLoading: reposLoading, error: reposError, profileUrl, totalRepos } = useGithubRepos("recent") // Show recent repos
 
   // Motion variants
   const containerVariants = {
@@ -197,9 +197,9 @@ export default function Github() {
             </div>
           </motion.div>
 
-          {/* Featured Repositories */}
-          <motion.div className="col-span-1 md:col-span-3 mt-8" variants={itemVariants}>
-            <h3 className="font-orbitron text-xl mb-6 text-accent">Featured Projects</h3>
+          {/* Recent Repositories */}
+          {/* <motion.div className="col-span-1 md:col-span-3 mt-8" variants={itemVariants}>
+            <h3 className="font-orbitron text-xl mb-6 text-accent">Recent Projects</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {reposLoading ? (
@@ -291,12 +291,12 @@ export default function Github() {
                 className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
                 asChild
               >
-                <a href="https://github.com/CHIGIVERA?tab=repositories" target="_blank" rel="noopener noreferrer">
-                  <GithubIcon className="mr-2 h-4 w-4" /> View All Repositories
+                <a href={profileUrl} target="_blank" rel="noopener noreferrer">
+                  <GithubIcon className="mr-2 h-4 w-4" /> View All Repositories ({totalRepos}+)
                 </a>
               </Button>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
     </section>

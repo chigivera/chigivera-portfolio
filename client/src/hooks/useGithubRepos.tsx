@@ -5,23 +5,31 @@ import { useState, useMemo } from "react";
 // Available filters for repositories
 export type FilterType = "all" | "popular" | "recent" | "language";
 
+// New interface for the updated API response
+interface GitHubReposResponse {
+  repos: GitHubRepo[];
+  profileUrl: string;
+  totalRepos: number;
+  error?: string;
+}
+
 export function useGithubRepos(initialFilter: FilterType = "all") {
   const [filter, setFilter] = useState<FilterType>(initialFilter);
   const [languageFilter, setLanguageFilter] = useState<string>("");
   
   // Fetch repositories from GitHub API
-  const reposQuery = useQuery<GitHubRepo[]>({ 
+  const reposQuery = useQuery<GitHubReposResponse>({ 
     queryKey: ['/api/github/repos'],
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
   
   // Get all unique languages from repositories
   const languages = useMemo(() => {
-    if (!reposQuery.data) return [];
+    if (!reposQuery.data?.repos) return [];
     
     // Extract unique languages
     const uniqueLanguages = new Set<string>();
-    reposQuery.data.forEach(repo => {
+    reposQuery.data.repos.forEach(repo => {
       if (repo.language) {
         uniqueLanguages.add(repo.language);
       }
@@ -32,9 +40,9 @@ export function useGithubRepos(initialFilter: FilterType = "all") {
   
   // Apply filters to repositories
   const filteredRepos = useMemo(() => {
-    if (!reposQuery.data) return [];
+    if (!reposQuery.data?.repos) return [];
     
-    let result = [...reposQuery.data];
+    let result = [...reposQuery.data.repos];
     
     // Apply main filter
     switch (filter) {
@@ -67,7 +75,9 @@ export function useGithubRepos(initialFilter: FilterType = "all") {
     setFilter,
     languages,
     languageFilter,
-    setLanguageFilter
+    setLanguageFilter,
+    profileUrl: reposQuery.data?.profileUrl || `https://github.com/chigivera`,
+    totalRepos: reposQuery.data?.totalRepos || 0
   };
 }
 

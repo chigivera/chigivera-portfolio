@@ -27,6 +27,9 @@ interface Project {
   order?: number
   technologies?: string[]
   imageUrl?: string
+  slug?: {
+    current: string
+  }
   createdAt?: string
   updatedAt?: string
 }
@@ -279,7 +282,34 @@ export default function Projects() {
                   whileHover={{ y: -10 }}
                 >
                   <div className="relative">
-                    {project.type === "mobile" ? (
+                    {project.imageUrl ? (
+                      // Show actual project image if available
+                      <div className="h-40 bg-card overflow-hidden">
+                        <img 
+                          src={project.imageUrl} 
+                          alt={project.name}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            // Fallback to icon if image fails to load
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.style.display = 'none';
+                            const nextElement = target.nextElementSibling as HTMLElement;
+                            if (nextElement) {
+                              nextElement.style.display = 'flex';
+                            }
+                          }}
+                        />
+                        <div className="h-40 bg-card flex items-center justify-center hidden">
+                          <div className="text-6xl text-muted-foreground p-4">
+                            {project.language ? (
+                              <Code size={60} className={`text-${project.color}`} />
+                            ) : (
+                              <Github size={60} className="text-muted-foreground opacity-20" />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ) : project.type === "mobile" ? (
                       <div className="h-40">
                         <PhoneModel />
                       </div>
@@ -299,13 +329,13 @@ export default function Projects() {
                       </div>
                     )}
 
-                    {project.stars && project.stars > 0 && (
+                    {/* {project.stars && project.stars > 0 && (
                       <div
                         className={`absolute top-0 right-0 bg-${project.color} text-${project.color}-foreground font-orbitron px-3 py-1 flex items-center`}
                       >
                         <Star className="h-3 w-3 mr-1" /> {project.stars}
                       </div>
-                    )}
+                    )} */}
 
                     {project.featured && (
                       <div className="absolute top-0 left-0 bg-accent text-accent-foreground font-orbitron text-xs px-2 py-1">
@@ -319,22 +349,32 @@ export default function Projects() {
                     <p className="text-muted-foreground mb-4 h-12 overflow-hidden">{project.description}</p>
 
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <span className={`px-2 py-1 bg-card text-${project.color} text-xs rounded-md`}>
-                        {project.language}
-                      </span>
+                      {project.language && project.language !== "Not specified" && (
+                        <span className={`px-2 py-1 bg-card text-${project.color} text-xs rounded-md`}>
+                          {project.language}
+                        </span>
+                      )}
 
                       <span className={`px-2 py-1 bg-card text-${project.color} text-xs rounded-md capitalize`}>
                         {project.category}
                       </span>
 
-                      {project.forks && project.forks > 0 && (
-                        <span className="px-2 py-1 bg-card text-muted-foreground text-xs rounded-md flex items-center gap-1">
-                          <GitFork className="h-3 w-3" /> {project.forks}
-                        </span>
+                      {/* Split slug and display as tags */}
+                      {project.slug && project.slug.current && (
+                        <>
+                          {project.slug.current.split('-').map((tag: string, index: number) => (
+                            <span 
+                              key={index} 
+                              className={`px-2 py-1 bg-card text-${project.color} text-xs rounded-md capitalize`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </>
                       )}
                     </div>
 
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                       <a
                         href={project.codeUrl}
                         target="_blank"
@@ -352,7 +392,7 @@ export default function Projects() {
                       >
                         <ExternalLink className="h-4 w-4 mr-1" /> Live Demo
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                 </motion.div>
               ))
