@@ -8,12 +8,16 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 5000,
-        HOST: '0.0.0.0'
+        HOST: '0.0.0.0',
+        GMAIL_USER: 'ayman.benchamkha@gmail.com',
+        GMAIL_APP_PASSWORD: 'xlwblcccybeodiwf'
       },
       env_production: {
         NODE_ENV: 'production',
         PORT: 5000,
-        HOST: '0.0.0.0'
+        HOST: '0.0.0.0',
+        GMAIL_USER: 'ayman.benchamkha@gmail.com',
+        GMAIL_APP_PASSWORD: 'xlwblcccybeodiwf'
       },
       error_file: './logs/err.log',
       out_file: './logs/out.log',

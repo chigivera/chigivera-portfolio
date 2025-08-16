@@ -33,7 +33,7 @@ PORT=5000
 
 # Gmail Configuration for Contact Form
 GMAIL_USER=ayman.benchamkha@gmail.com
-GMAIL_APP_PASSWORD=\$GMAIL_APP_PASSWORD
+GMAIL_APP_PASSWORD=xlwblcccybeodiwf
 
 # Sanity CMS Configuration
 SANITY_PROJECT_ID=lkszte6x
@@ -47,7 +47,7 @@ EOF
 echo "✅ Build completed successfully!"
 echo "📁 Build output is in the 'dist' directory"
 echo "🔧 Next steps:"
-echo "   1. Copy the 'dist' folder to your Ubuntu server"
+echo "   1. Copy the 'dist' folder to your Ubuntu server at 64.226.94.80"
 echo "   2. Copy the 'deploy' folder to your Ubuntu server"
 echo "   3. Set up environment variables on the server"
 echo "   4. Configure Nginx and PM2"
