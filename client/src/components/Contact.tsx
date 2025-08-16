@@ -74,7 +74,7 @@ export default function Contact() {
                 <div>
                   <h4 className="font-orbitron text-foreground">Email</h4>
                   <a href="mailto:contact@chigivera.dev" className="text-muted-foreground hover:text-primary transition-colors">
-                    contact@chigivera.dev
+                    ayman.benchamkha@gmail.com
                   </a>
                 </div>
               </motion.div>
@@ -88,7 +88,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-orbitron text-foreground">Location</h4>
-                  <p className="text-muted-foreground">San Francisco, California</p>
+                  <p className="text-muted-foreground">Morocco, Casablanca</p>
                 </div>
               </motion.div>
               

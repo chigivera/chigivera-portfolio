@@ -70,20 +70,30 @@ export default function TerminalContact() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      // In a real implementation, you would send the form data to your server
-      // For now, we'll just simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
-      
-      form.reset();
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Message sent!",
+          description: result.message,
+        });
+        form.reset();
+      } else {
+        throw new Error(result.message);
+      }
     } catch (error) {
+      console.error('Contact form error:', error);
       toast({
         title: "Error",
-        description: "There was a problem sending your message. Please try again.",
+        description: error instanceof Error ? error.message : "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
     }

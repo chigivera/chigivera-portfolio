@@ -152,15 +152,15 @@ export const serverUnits = [
 
 // Social links
 export const socialLinks = [
-  { name: "LinkedIn", icon: "linkedin-in", url: "#", color: "primary" },
+  { name: "LinkedIn", icon: "linkedin-in", url: "https://www.linkedin.com/in/benchamkha-ayman-14aaa4292/", color: "primary" },
   {
     name: "GitHub",
     icon: "github",
     url: "https://github.com/chigivera",
     color: "secondary",
   },
-  { name: "Twitter", icon: "twitter", url: "#", color: "accent" },
-  { name: "Medium", icon: "medium-m", url: "#", color: "primary" },
+  { name: "Twitter", icon: "twitter", url: "https://x.com/aforabysmal", color: "accent" },
+  { name: "Medium", icon: "medium-m", url: "https://medium.com/@ayman.benchamkha", color: "primary" },
 ];
 
 // GitHub username for API calls

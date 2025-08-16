@@ -42,7 +42,7 @@ export default function About() {
               animate={isInView ? "visible" : "hidden"}
               variants={variants}
             >
-              Senior Software Engineer with over 8 years of experience building cutting-edge solutions across web development, AI integration, and data analysis. I specialize in creating scalable, performant applications that deliver exceptional user experiences.
+              Senior Software Engineer with over 5 years of experience building cutting-edge solutions across web development, AI integration, and data analysis. I specialize in creating scalable, performant applications that deliver exceptional user experiences.
             </motion.p>
             <motion.p 
               className="text-muted-foreground text-lg leading-relaxed"

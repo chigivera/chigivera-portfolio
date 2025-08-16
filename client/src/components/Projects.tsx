@@ -48,13 +48,12 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         setIsLoading(true)
-        console.log("Fetching projects from local server...")
+    
         const response = await fetch("/api/sanity/projects")
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const data = await response.json()
-        console.log("Projects data received:", data)
         setProjectsData(data || [])
         setError(null)
       } catch (err) {

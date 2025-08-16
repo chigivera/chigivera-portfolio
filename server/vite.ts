@@ -16,14 +16,16 @@ export function log(message: string, source = "express") {
     hour12: true,
   });
 
-  console.log(`${formattedTime} [${source}] ${message}`);
+  // Production logging - only log errors and important info
+  if (process.env.NODE_ENV === 'development' || source === 'ERROR') {
+    console.log(`${formattedTime} [${source}] ${message}`);
+  }
 }
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true,
   };
 
   const vite = await createViteServer({
