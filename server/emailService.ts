@@ -1,6 +1,11 @@
 import nodemailer from 'nodemailer';
 
 // Email configuration
+console.log('Email service environment variables:', {
+  GMAIL_USER: process.env.GMAIL_USER,
+  GMAIL_APP_PASSWORD: process.env.GMAIL_APP_PASSWORD ? '***SET***' : 'NOT SET',
+  NODE_ENV: process.env.NODE_ENV
+});
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -68,11 +73,11 @@ export const sendContactEmail = async (data: {
   } catch (error) {
     console.error('Error sending email:', error);
     console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      command: error.command
+      message: error instanceof Error ? error.message : 'Unknown error',
+      code: (error as any)?.code,
+      command: (error as any)?.command
     });
-    throw new Error(`Failed to send email: ${error.message}`);
+    throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
 

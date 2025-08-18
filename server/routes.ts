@@ -449,6 +449,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
   app.post("/api/contact", async (req, res) => {
     try {
+      console.log('Contact form submission received:', {
+        body: req.body,
+        env: {
+          GMAIL_USER: process.env.GMAIL_USER ? 'SET' : 'NOT SET',
+          GMAIL_APP_PASSWORD: process.env.GMAIL_APP_PASSWORD ? 'SET' : 'NOT SET'
+        }
+      });
+      
       const { name, email, subject, message } = req.body;
       
       // Validate required fields
@@ -468,8 +476,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      console.log('Attempting to send email...');
+      
       // Send email
       const result = await sendContactEmail({ name, email, subject, message });
+      
+      console.log('Email sent successfully:', result);
       
       res.json({ 
         success: true, 
